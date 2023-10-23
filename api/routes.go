@@ -4,11 +4,14 @@ import (
 	"fmt"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
+	"go-server/internal"
 	"log"
 	"net/http"
 )
 
-type App struct{}
+type App struct {
+	Provider internal.Provider
+}
 
 func (app *App) SetupRoutes() http.Handler {
 	mux := chi.NewRouter()
@@ -32,6 +35,8 @@ func (app *App) SetupServer() {
 		Addr:    fmt.Sprintf(":%s", "8080"),
 		Handler: app.SetupRoutes(),
 	}
+
+	app.Provider = *app.Provider.SetupProvider()
 
 	err := server.ListenAndServe()
 	if err != nil {
