@@ -19,6 +19,8 @@ func (app *App) SendNotification(w http.ResponseWriter, r *http.Request) {
 		Data:    deviceToken,
 	}
 
+	//TODO: send notification message
+
 	err := util.WriteJSON(w, http.StatusOK, payload)
 	if err != nil {
 		log.Println(err)
