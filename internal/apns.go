@@ -21,6 +21,8 @@ func (provider *Provider) SetupProvider() *Provider {
 		log.Fatal(err)
 	}
 
+	log.Println("Key loaded")
+
 	newToken := &token.Token{
 		AuthKey: authKey,
 		KeyID:   provider.KeyId,
@@ -28,6 +30,8 @@ func (provider *Provider) SetupProvider() *Provider {
 	}
 
 	provider.Client = apns2.NewTokenClient(newToken).Development()
+
+	log.Println("Provider client setup done")
 
 	return provider
 }
