@@ -7,21 +7,21 @@ import (
 	"net/http"
 )
 
-type JSONPayload struct {
-}
-
 func (app *App) SendNotification(w http.ResponseWriter, r *http.Request) {
 	deviceToken := chi.URLParam(r, "deviceToken")
 
-	payload := util.JSONResponse{
-		Error:   false,
-		Message: "token",
-		Data:    deviceToken,
+	res, err := app.Provider.SendNotification(deviceToken, "Message from Go!")
+	if err != nil {
+		log.Fatal(err)
 	}
 
-	//TODO: send notification message
+	payload := util.JSONResponse{
+		Error:   false,
+		Message: "result",
+		Data:    res.Sent(),
+	}
 
-	err := util.WriteJSON(w, http.StatusOK, payload)
+	err = util.WriteJSON(w, http.StatusOK, payload)
 	if err != nil {
 		log.Println(err)
 	}
